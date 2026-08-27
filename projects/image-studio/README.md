@@ -4,6 +4,16 @@ Desktop image-processing app for the **AI Training Workshop**, built with **Pyth
 
 Implements the operations covered in early sessions and is structured so new filters can be added as the course continues.
 
+## App chrome (Paint.NET–inspired)
+
+- **Menu bar** — File, Edit, View, Image, Effects, Window, Help  
+- **Toolbar** — Open / Save, Undo / Redo / Reset, Zoom, Compare  
+- **Tools** (F5) — filter & transform tool palette + options  
+- **History** (F6) — applied steps with Undo / Redo  
+- **Layers** (F7) — background layer (ready to grow later)  
+- **Colors** (F8) — primary/secondary swatches  
+- **Canvas** — gray workspace, zoom, scrollbars  
+
 ## Features (from workshop sessions)
 
 | Area | Operations |
