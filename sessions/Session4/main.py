@@ -235,21 +235,24 @@ def show_before_after(img_before, img_after, title_1: str = "Before", title_2: s
 
 # endregion
 
-#endregion Part 9 - webcam
-cap = cv2.VideoCapture(0)
+# region Part 9 - webcam
+# Guarded: uncomment to try local webcam (desktop OpenCV). Do not leave this
+# running as the default when opening this session file.
+#
+# cap = cv2.VideoCapture(0)
+#
+# while cap.isOpened():
+#     ret, frame = cap.read()
+#
+#     if not ret:
+#         break
+#
+#     cv2.imshow('frame', frame)
+#     key = cv2.waitKey(1) & 0xFF
+#     if key == ord('q'):
+#         break
+#
+# cv2.destroyAllWindows()
+# cap.release()
 
-while cap.isOpened():
-    ret, frame = cap.read()
-
-    if not ret:
-        break
-
-    cv2.imshow('frame', frame)
-    key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
-        break
-
-cv2.destroyAllWindows()
-cap.release()
-
-#endregion
+# endregion

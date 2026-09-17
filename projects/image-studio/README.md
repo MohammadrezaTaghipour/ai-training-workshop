@@ -1,8 +1,9 @@
 # Image Studio
 
-Desktop image-processing app for the **AI Training Workshop**, built with **Python**, **Tkinter**, and **OpenCV**.
+Desktop image-processing app for the **AI Learning Lab**, built with **Python**, **Tkinter**, and **OpenCV**.
 
-Implements the operations covered in early sessions and is structured so new filters can be added as the course continues.
+Filter and vision logic live in the shared UI-free package `core` (so a web
+adapter can reuse the same code later). This app remains the default UI.
 
 ## App chrome (Paint.NET–inspired)
 
@@ -22,19 +23,26 @@ Implements the operations covered in early sessions and is structured so new fil
 | Blur / Smooth | Mean, Gaussian, Median, Bilateral |
 | Detail | Sharpen (3×3 convolution kernel) |
 | Augmentation | Gaussian noise, Random filter pipeline |
+| Classic Vision | Haar face detect, faces + eyes |
 | Workflow | Before / After preview, Undo, Reset, Save |
 
 ## Setup
 
+From the repository root (preferred):
+
 ```bash
-cd projects/image-studio
-py -m pip install -r requirements.txt
+uv sync
 ```
 
 ## Run
 
 ```bash
-cd projects/image-studio
+uv run python projects/image-studio/main.py
+```
+
+Or from this folder after root `uv sync`:
+
+```bash
 py main.py
 ```
 
@@ -44,16 +52,17 @@ Shortcuts: `Ctrl+O` open · `Ctrl+S` save · `Ctrl+Z` undo · `Ctrl+R` reset
 
 ```
 image-studio/
-├── main.py           # entry point
+├── main.py           # entry point (adds repo root to sys.path)
 ├── app.py            # Tkinter UI
-├── filters.py        # OpenCV operations (easy to extend)
-├── requirements.txt
+├── filters.py        # shim → core.image.filters
+├── help_text.py
 └── images/           # optional sample images
 ```
 
+Shared logic: `core/image/filters.py`, `core/vision_classic/faces.py`
+
 ## Extending in later sessions
 
-1. Add a new function in `filters.py` that returns `(image, label)`.
-2. Wire a button (or slider) in `app.py` that calls `_commit(result, label)`.
-
-That keeps UI and image math separated as the app grows.
+1. Add a function in `core/…` that returns `(image, label)`.
+2. Wire a button in `app.py` that calls `_commit(result, label)`.
+3. Only if asked for web: add a thin adapter under `lab/adapters/` importing the same `core` function.

@@ -16,6 +16,7 @@ from PIL import Image, ImageTk
 
 import filters as fx
 import help_text as docs
+from core.vision_classic import faces as vision_faces
 
 
 APP_TITLE = "Image Studio"
@@ -173,6 +174,11 @@ class ImageStudioApp(tk.Tk):
         effects_m.add_separator()
         effects_m.add_command(label="Random Pipeline", command=self.apply_random)
         effects_m.add_separator()
+        vision_m = tk.Menu(effects_m, tearoff=0)
+        vision_m.add_command(label="Detect Faces", command=self.apply_face_detect)
+        vision_m.add_command(label="Detect Faces + Eyes", command=self.apply_face_eye_detect)
+        effects_m.add_cascade(label="Classic Vision", menu=vision_m)
+        effects_m.add_separator()
         help_effects = tk.Menu(effects_m, tearoff=0)
         for key, label in (
             ("mean", "Mean Blur"),
@@ -182,6 +188,8 @@ class ImageStudioApp(tk.Tk):
             ("sharpen", "Sharpen"),
             ("noise", "Gaussian Noise"),
             ("random", "Random Pipeline"),
+            ("faces", "Detect Faces"),
+            ("faces_eyes", "Detect Faces + Eyes"),
         ):
             help_effects.add_command(
                 label=f"?  {label}",
@@ -382,6 +390,8 @@ class ImageStudioApp(tk.Tk):
             ("sharpen", "✦", "Sharpen"),
             ("noise", "⁘", "Noise"),
             ("random", "🎲", "Random"),
+            ("faces", "☺", "Faces"),
+            ("faces_eyes", "◉", "Faces+Eyes"),
             ("compare", "⧉", "Compare"),
         ]
         self._tool_buttons: dict[str, tk.Button] = {}
@@ -563,6 +573,8 @@ class ImageStudioApp(tk.Tk):
             "sharpen": self.apply_sharpen,
             "noise": self.dialog_noise,
             "random": self.apply_random,
+            "faces": self.apply_face_detect,
+            "faces_eyes": self.apply_face_eye_detect,
             "compare": self.toggle_compare,
         }
         info = docs.get_help(key)
@@ -937,6 +949,18 @@ class ImageStudioApp(tk.Tk):
         result, labels = fx.apply_random_pipeline(self.current)
         self._commit(result, "Random → " + ", ".join(labels))
 
+    def apply_face_detect(self) -> None:
+        if not self._require_image():
+            return
+        result, label = vision_faces.draw_faces(self.current)
+        self._commit(result, label)
+
+    def apply_face_eye_detect(self) -> None:
+        if not self._require_image():
+            return
+        result, label = vision_faces.draw_faces_and_eyes(self.current)
+        self._commit(result, label)
+
     # ── Canvas ───────────────────────────────────────────────────────
 
     def _display_image(self) -> np.ndarray | None:
@@ -988,9 +1012,10 @@ class ImageStudioApp(tk.Tk):
     def _show_about(self) -> None:
         messagebox.showinfo(
             "About Image Studio",
-            "Image Studio — AI Training Workshop\n\n"
+            "Image Studio — AI Learning Lab\n\n"
             "Layout inspired by Paint.NET\n"
-            "Python · Tkinter · OpenCV\n\n"
+            "Python · Tkinter · OpenCV\n"
+            "Logic from shared `core` package (web-ready)\n\n"
             "Click the ? next to any tool for a description\n"
             "of what that filter or transform does.\n\n"
             "Utility windows: Tools (F5), History (F6),\n"

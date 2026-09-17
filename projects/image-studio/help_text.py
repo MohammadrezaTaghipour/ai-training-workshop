@@ -182,6 +182,26 @@ HELP: dict[str, dict[str, str]] = {
             "Also available from View ▸ Compare Original and the toolbar."
         ),
     },
+    "faces": {
+        "title": "Detect Faces",
+        "summary": "Find faces with OpenCV Haar cascades and draw boxes.",
+        "details": (
+            "Uses haarcascade_frontalface_default.xml (classic CV, no GPU).\n\n"
+            "Works best on frontal faces with reasonable lighting.\n"
+            "From session5 webcam exercises — here applied to a still image.\n\n"
+            "Logic lives in core.vision_classic.faces (UI-free)."
+        ),
+    },
+    "faces_eyes": {
+        "title": "Detect Faces + Eyes",
+        "summary": "Draw face boxes (green) and eye boxes (blue).",
+        "details": (
+            "Runs frontal-face and eye Haar cascades, then annotates the image.\n\n"
+            "Eye detections can false-positive on textured regions; use as a "
+            "learning demo, not production biometrics.\n\n"
+            "OpenCV: CascadeClassifier + detectMultiScale"
+        ),
+    },
 }
 
 

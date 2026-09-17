@@ -1,7 +1,29 @@
 [project]
 name = "ai-training-workshop"
 version = "0.1.0"
+description = "Personal AI Learning Lab — course sessions, desktop apps, shared core"
+readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "opencv-python==4.13.0.92",
+    "numpy>=2.0",
+    "pillow>=10.0.0",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+web = [
+    "streamlit>=1.63",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["core"]
+
+[dependency-groups]
+web = [
+    "streamlit>=1.63",
 ]

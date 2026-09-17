@@ -26,6 +26,11 @@ desktop.ini
 **/output/
 **/exports/
 *.log
+*.pt
+*.onnx
+
+# Nested runtimes keep their own venv
+runtimes/**/.venv/
 
 # Keep sample images folder, ignore large personal dumps
 !projects/image-studio/images/.gitkeep

@@ -119,44 +119,44 @@ def show_before_after(img_before, img_after, title_1: str = "Before", title_2: s
 
 #region Part 5 -- Face Detection
 
-# face_detection = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-#
-# capture_cam = cv2.VideoCapture(0)
-#
-# while True:
-#     success, img = capture_cam.read()
-#     img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#
-#     faces = face_detection.detectMultiScale(img_grey, 1.1, 19)
-#     for (x, y, w, h) in faces:
-#         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-#
-#     cv2.imshow('openCv', img)
-#     if cv2.waitKey(1) & 0xFF == ord('q'):
-#         break
-#
-# capture_cam.release()
-# cv2.destroyAllWindows()
+face_detection = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+capture_cam = cv2.VideoCapture(0)
+
+while True:
+    success, img = capture_cam.read()
+    img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    faces = face_detection.detectMultiScale(img_grey, 1.1, 19)
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    cv2.imshow('openCv', img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+capture_cam.release()
+cv2.destroyAllWindows()
 
 
-# face_detection = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
-# capture_cam = cv2.VideoCapture(0)
-#
-# while True:
-#     success, img = capture_cam.read()
-#     img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#
-#     faces = face_detection.detectMultiScale(img_grey, 1.1, 5)
-#     for (x, y, w, h) in faces:
-#         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-#         cv2.putText(img, 'eye', (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-#
-#     cv2.imshow('openCv', img)
-#     if cv2.waitKey(1) & 0xFF == ord('q'):
-#         break
-#
-# capture_cam.release()
-# cv2.destroyAllWindows()
+face_detection = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+capture_cam = cv2.VideoCapture(0)
+
+while True:
+    success, img = capture_cam.read()
+    img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    faces = face_detection.detectMultiScale(img_grey, 1.1, 5)
+    for (x, y, w, h) in faces:
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.putText(img, 'eye', (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+    cv2.imshow('openCv', img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+capture_cam.release()
+cv2.destroyAllWindows()
 
 #endregion
 
@@ -166,5 +166,6 @@ def show_before_after(img_before, img_after, title_1: str = "Before", title_2: s
 
 
 
-# for next session:
-# 1- add face detection to image studio
+# Promoted to Learning Lab:
+#   core.vision_classic.faces  +  Image Studio → Effects ▸ Classic Vision
+# Live webcam loops stay in this session file (desktop OpenCV), not Streamlit.
