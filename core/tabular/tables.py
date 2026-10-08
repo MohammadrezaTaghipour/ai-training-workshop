@@ -24,6 +24,41 @@ class TableError(ValueError):
     """A table could not be read or transformed."""
 
 
+def upload_allowed(filename: str) -> bool:
+    """CSV, TSV, TXT, or a delimited file with no extension (SMSSpamCollection)."""
+    suffix = Path(filename).suffix.lower().lstrip(".")
+    return suffix in SUPPORTED_EXTENSIONS or suffix == ""
+
+
+def suggest_read_options(filename: str, sample: bytes) -> tuple[str, bool]:
+    """Pick a delimiter label and header flag from the file name and a sample.
+
+    Session 9 reads SMSSpamCollection with a tab delimiter and ``header=None``.
+    That file has no extension, so the name alone cannot tell us the format.
+    """
+    suffix = Path(filename).suffix.lower()
+    if suffix == ".csv":
+        return "Comma", True
+    if suffix == ".tsv":
+        return "Tab", True
+
+    text = sample[:16384].decode("utf-8", errors="replace")
+    lines = [line for line in text.splitlines() if line.strip()][:30]
+    if not lines:
+        return "Comma", True
+
+    tab_hits = sum("\t" in line for line in lines)
+    if tab_hits >= max(1, len(lines) // 2):
+        # Extensionless course files such as SMSSpamCollection have no header.
+        header = suffix != ""
+        return "Tab", header
+
+    semi_hits = sum(line.count(";") > line.count(",") for line in lines)
+    if semi_hits >= max(1, len(lines) // 2):
+        return "Semicolon", True
+    return "Comma", True
+
+
 def read_table(
     source: str | Path | bytes | BinaryIO,
     *,
