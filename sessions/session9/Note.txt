@@ -1,0 +1,78 @@
+Data Preparation: 
+===========================================================================================
+Tools: 
+
+Structured:
+
+Data Preparation: 
+		Pandas, Polars, DataTable,... Red Pandas, ...	=> Community 
+		
+
+	Table => 2 Dimensional 
+		Row / Column 
+		Machine Learning Algorithm => Data Science => NN
+		
+		Time-Series 
+Regression: 
+		Linear Regression 
+		
+		
+Classification: 
+		SVM 
+		Logistic Regression 
+		KNN 
+		NB
+Clustering: 
+		K-Means
+
+------------------------------------
+Modeling: 
+		
+TensorFlow + pytorch  => torchvision, torchtext, torchaudio 
+NN, CNN, RNN, GNN, ... 
+
+Unstructured:
+	Image => OpenCV 
+	Video => OpenCV 
+	+ YOLO => Object Detection =>
+			 Tracking, Classification  
+	Text + Voice => Whisper 
+	
+	Streamlit
+ 	
+	----------------------------------------------------------------
+	LLM =>	OLLAMA => Model => Pull
+	Whisper => Persian  +
+	Agent + RAG + Database + Vector Database +  Docker + Deployment 
+	-----------------------------------------------------------------
+
+	
+===============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
