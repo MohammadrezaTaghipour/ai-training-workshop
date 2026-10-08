@@ -212,7 +212,7 @@ Part 1 only. Part 2 has the Titanic and SMS Spam files and no `.py` yet.
 
 Tools named: Pandas (also Polars, DataTable, Red Pandas). A table is 2D rows and columns. Big data is mentioned as PySpark.
 
-### `Structured_DataPreparation.py`
+### `sessions/session9/main.py`
 
 - **Python vs Pandas** — list / tuple / dict / set versus **Series** (column) and **DataFrame** (table). Series is mutable.
 - **Series 1** — build from a list; `sort_values` (`inplace`, `ascending`) vs list `.sort`
@@ -229,11 +229,11 @@ Tools named: Pandas (also Polars, DataTable, Red Pandas). A table is 2D rows and
 
 Datasets: `titanic.csv`, `SMSSpamCollection`.
 
-Source: `Videos/AI workshop/Session9/Session_09/Part1/part1/Structured/Structured_DataPreparation.py`
+Source: `sessions/session9/main.py` (class note: `sessions/session9/Note.txt`)
 
 ## Named in notes, not in a lesson file yet
 
-From `Session9/Session_09/Part1/Note.txt`. These are the map for later sessions, not topics already practiced.
+From `sessions/session9/Note.txt`. These are the map for later sessions, not topics already practiced.
 
 - **Regression** — linear regression
 - **Classification** — SVM, logistic regression, KNN, naive Bayes
@@ -254,7 +254,7 @@ From `Session9/Session_09/Part1/Note.txt`. These are the map for later sessions,
 | 6 | Repo `sessions/session6/main.py` |
 | 7 | Repo `sessions/session7/main.py` |
 | 8 | Videos `Session8/.../streamlit_project/` and repo `sessions/session8/main.py` |
-| 9 | Videos `Session9/.../Structured_DataPreparation.py` |
+| 9 | Repo `sessions/session9/main.py` |
 
 Classmate `Exercise` folders were not included.
 
