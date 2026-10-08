@@ -17,7 +17,6 @@ import streamlit as st
 
 from core.tabular.tables import (
     MAX_UPLOAD_MB,
-    SUPPORTED_EXTENSIONS,
     TableError,
     column_profile,
     concat_tables,
@@ -33,7 +32,9 @@ from core.tabular.tables import (
     read_table,
     schema_table,
     sort_frame,
+    suggest_read_options,
     to_csv_bytes,
+    upload_allowed,
 )
 
 _SAMPLE = (
@@ -62,12 +63,30 @@ def _init_state() -> None:
     st.session_state.setdefault("delimiter_label", "Comma")
     st.session_state.setdefault("header_row", True)
     st.session_state.setdefault("encoding_name", "utf-8")
+    st.session_state.setdefault("second_delimiter", "Comma")
+    st.session_state.setdefault("second_header", True)
 
 
-def _suggest_delimiter(filename: str) -> str:
-    if filename.lower().endswith(".tsv"):
-        return "Tab"
-    return "Comma"
+def _remember_upload(upload) -> None:
+    """Store a new upload and choose delimiter/header the way Session 9 did."""
+    raw = upload.getvalue()
+    if not upload_allowed(upload.name):
+        st.session_state.load_error = (
+            f"{upload.name} is not a supported table. Use CSV, TSV, TXT, "
+            "or a delimited file with no extension."
+        )
+        st.session_state.pending_bytes = None
+        st.session_state.frame = None
+        return
+    label, header = suggest_read_options(upload.name, raw)
+    st.session_state.delimiter_label = label
+    st.session_state.header_row = header
+    st.session_state.encoding_name = "utf-8"
+    st.session_state.applied_upload = f"{upload.name}:{upload.size}"
+    st.session_state.pending_bytes = raw
+    st.session_state.source_name = upload.name
+    st.session_state.parsed_settings = None
+    st.session_state.load_error = None
 
 
 def _parse_pending() -> None:
@@ -110,14 +129,13 @@ def _sidebar() -> None:
     with st.sidebar:
         st.header("Data")
         st.caption(
-            f"CSV, TSV, or TXT. Up to {MAX_UPLOAD_MB} MB. "
-            "The table stays in this browser session."
+            f"CSV, TSV, TXT, or a delimited file with no extension. "
+            f"Up to {MAX_UPLOAD_MB} MB. The table stays in this browser session."
         )
         upload = st.file_uploader(
             "Upload a table",
-            type=list(SUPPORTED_EXTENSIONS),
             max_upload_size=MAX_UPLOAD_MB,
-            help="Use Tab for TSV. Turn off the header option for files like SMSSpamCollection.",
+            help="SMSSpamCollection is tab-separated and has no header. The app detects that.",
         )
         if st.button("Load Titanic sample", icon=":material/school:", width="stretch"):
             try:
@@ -140,13 +158,7 @@ def _sidebar() -> None:
         if upload is not None:
             stamp = f"{upload.name}:{upload.size}"
             if stamp != st.session_state.get("applied_upload"):
-                st.session_state.delimiter_label = _suggest_delimiter(upload.name)
-                st.session_state.header_row = True
-                st.session_state.encoding_name = "utf-8"
-                st.session_state.applied_upload = stamp
-                st.session_state.pending_bytes = upload.getvalue()
-                st.session_state.source_name = upload.name
-                st.session_state.parsed_settings = None
+                _remember_upload(upload)
 
         st.segmented_control(
             "Delimiter",
@@ -200,7 +212,10 @@ def _column_tab(frame: pd.DataFrame) -> None:
         st.metric("Non-null", f"{profile['count']:,}", border=True)
         st.metric("Missing", f"{profile['missing']:,}", border=True)
         st.metric("Unique", f"{profile['unique']:,}", border=True)
-    rows = [{"stat": key, "value": value} for key, value in profile.items()]
+    rows = [
+        {"stat": key, "value": "" if value is None else str(value)}
+        for key, value in profile.items()
+    ]
     st.dataframe(pd.DataFrame(rows), hide_index=True)
     counts = series.astype("string").fillna("(missing)").value_counts().head(15)
     chart = counts.rename_axis("value").reset_index(name="count")
@@ -290,18 +305,32 @@ def _combine_tab(frame: pd.DataFrame) -> None:
     st.caption("Upload a second table and stack it (concat) or join it (merge).")
     other_file = st.file_uploader(
         "Second table",
-        type=list(SUPPORTED_EXTENSIONS),
         max_upload_size=MAX_UPLOAD_MB,
         key="second_upload",
+        help="CSV, TSV, TXT, or a delimited file with no extension.",
     )
+    if other_file is not None:
+        second_stamp = f"{other_file.name}:{other_file.size}"
+        if second_stamp != st.session_state.get("applied_second"):
+            if upload_allowed(other_file.name):
+                label, header = suggest_read_options(other_file.name, other_file.getvalue())
+                st.session_state.second_delimiter = label
+                st.session_state.second_header = header
+                st.session_state.second_error = None
+            else:
+                st.session_state.second_error = (
+                    f"{other_file.name} is not a supported table."
+                )
+            st.session_state.applied_second = second_stamp
     other_delim = st.segmented_control(
         "Second delimiter",
         list(_DELIMITERS),
-        default="Comma",
         required=True,
         key="second_delimiter",
     )
-    other_header = st.checkbox("Second file has a header", value=True, key="second_header")
+    other_header = st.checkbox("Second file has a header", key="second_header")
+    if st.session_state.get("second_error"):
+        st.error(st.session_state.second_error)
     how = st.segmented_control(
         "Combine",
         ["concat", "inner", "left", "right", "outer"],
@@ -388,7 +417,7 @@ def main() -> None:
     frame = st.session_state.frame
     if frame is None:
         st.info(
-            "Upload a CSV, TSV, or TXT file in the sidebar, "
+            "Upload a CSV, TSV, TXT, or extensionless delimited file in the sidebar, "
             "or load the Titanic sample to try the tools."
         )
         return

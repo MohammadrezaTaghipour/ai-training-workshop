@@ -18,7 +18,9 @@ from core.tabular.tables import (
     read_table,
     schema_table,
     sort_frame,
+    suggest_read_options,
     to_csv_bytes,
+    upload_allowed,
 )
 
 __all__ = [
@@ -39,5 +41,7 @@ __all__ = [
     "read_table",
     "schema_table",
     "sort_frame",
+    "suggest_read_options",
     "to_csv_bytes",
+    "upload_allowed",
 ]
