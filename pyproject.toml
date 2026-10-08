@@ -9,6 +9,8 @@ dependencies = [
     "numpy>=2.0",
     "pillow>=10.0.0",
     "matplotlib>=3.8",
+    "transformers>=5.17.0",
+    "streamlit>=1.64.0",
 ]
 
 [project.optional-dependencies]
@@ -25,5 +27,6 @@ packages = ["core"]
 
 [dependency-groups]
 web = [
+    "edge-tts>=7.2.8",
     "streamlit>=1.63",
 ]

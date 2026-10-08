@@ -28,6 +28,11 @@ desktop.ini
 *.log
 *.pt
 *.onnx
+/output.mp3
+sessions/**/voice_result/
+
+# Local model weights (kept on the user machine)
+/models/
 
 # Nested runtimes keep their own venv
 runtimes/**/.venv/
