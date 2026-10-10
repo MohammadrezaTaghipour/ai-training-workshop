@@ -4,13 +4,13 @@ Learned topics, taken from the course `.py` files (each class is two parts; topi
 
 Update this file at the end of every session: add a `## Session N` section, then add the same branches to the diagram below.
 
-Last built from code: **2026-10-08** (through Session 9, Part 1).
+Last built from code: **2026-10-10** (through Session 10, Part 1).
 
 ## How the course fits together
 
 The spine is **CRISP-DM**: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.
 
-So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Modeling is named, and only classic detection (Haar, YOLO) and speech models have been run, not trained.
+So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep: features versus target, a train/test split, and turning categories into numbers. A model is not trained yet.
 
 ```mermaid
 mindmap
@@ -41,6 +41,10 @@ mindmap
       Series and DataFrame
       Missing values
       Correlation heatmap
+    Modeling prep
+      Features and target
+      Train test split
+      Map and get dummies
 ```
 
 ## Session 1 — Python stack
@@ -231,16 +235,39 @@ Datasets: `titanic.csv`, `SMSSpamCollection`.
 
 Source: `sessions/session9/main.py` (class note: `sessions/session9/Note.txt`)
 
+## Session 10 — Features, target, and train/test split
+
+Part 1 is the lesson file. Part 2 is the class video plus two diagrams (`Random_Split.png`, `StudentList.png`) and has no `.py`. The Session 9 Pandas scratchpad was copied into the class folder unchanged, so it is not repeated here.
+
+IDE plugins named in the note: ExcelReader, Rainbow CSV or CSV Editor, Docker, `.env` files.
+
+### Part 1 — `sessions/session10/main.py`
+
+- **Setup notes** — `pip freeze` into `requirements.txt`, install and upgrade from that file. RAG, agents, Pandas, Git named as the surrounding topics.
+- **Supervised vs unsupervised** — classification and regression have a label; clustering does not.
+- **Target type** — discrete `y` (including binary 0/1) is classification, named with logistic regression. Continuous `y` (such as a house price) is regression.
+- **Features and target** — a row is a case / sample / instance / observation. `X` is input features, `y` is the output label. Three ways to separate them: pick columns, `drop` the target, or `iloc`.
+- **Select with labels or positions** — `loc` versus `iloc`.
+- **Employee query** — `usecols`, `parse_dates`, rename columns (spaces to `_`, then `rename`), `astype("bool")`, `unique` / `nunique`, `between` on salary and on dates.
+- **Random split** — `train_test_split` from scikit-learn: `test_size=0.2`, `shuffle=True`, `random_state=13` so the same run gives the same train and test rows. Prediction is named as single-row or batch, after train / evaluate / deploy. Neural nets are named as higher accuracy than classical ML, not coded.
+- **Encode categories** — manual `map` / `replace` (Sex, Embarked), or `pd.get_dummies` when there are several low-cardinality text columns. The live example prints `nunique` and the dummy columns.
+
+Datasets the file reads: `titanic.csv`, `Employees.csv`.
+
+### Part 2
+
+No lesson script. The split diagram is `sessions/session10/Random_Split.png`.
+
+Source: `sessions/session10/main.py` (class note: `sessions/session10/Note.txt`)
+
 ## Named in notes, not in a lesson file yet
 
-From `sessions/session9/Note.txt`. These are the map for later sessions, not topics already practiced.
+From the Session 9 and Session 10 notes. These were named in class and are not practiced as code yet.
 
-- **Regression** — linear regression
-- **Classification** — SVM, logistic regression, KNN, naive Bayes
+- **Fit a model** — linear regression, logistic regression, SVM, KNN, naive Bayes
 - **Clustering** — K-Means
 - **Modeling stacks** — TensorFlow, PyTorch (`torchvision`, `torchtext`, `torchaudio`); NN, CNN, RNN, GNN
-- **Unstructured path already started** — image/video (OpenCV), detection (YOLO, plus tracking and classification), text/voice (Whisper), Streamlit
-- **Later stack** — LLM via Ollama, agents, RAG, databases, vector databases, Docker, deployment
+- **Later stack** — LLM via Ollama (the installer was in the class folder, not used in code), agents, RAG, vector databases, Docker, deployment
 
 ## Where the code lives
 
@@ -255,6 +282,7 @@ From `sessions/session9/Note.txt`. These are the map for later sessions, not top
 | 7 | Repo `sessions/session7/main.py` |
 | 8 | Videos `Session8/.../streamlit_project/` and repo `sessions/session8/main.py` |
 | 9 | Repo `sessions/session9/main.py` |
+| 10 | Repo `sessions/session10/main.py` |
 
 Classmate `Exercise` folders were not included.
 
@@ -263,7 +291,7 @@ Classmate `Exercise` folders were not included.
 Copy this block to the bottom of the topic list, fill it from the new `#region`s, then add one branch to the Mermaid diagram.
 
 ```markdown
-## Session 10 — <short title>
+## Session 11 — <short title>
 
 ### Part 1 — `<file.py>`
 
