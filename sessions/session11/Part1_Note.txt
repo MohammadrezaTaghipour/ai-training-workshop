@@ -1,0 +1,20 @@
+Divar: 
+
+	MongoDB
+Database: 
+	Semi-Structured
+	NO SQL: Not Only SQL  
+		Relational 
+
+2 Dimensional => Row/Column 
+
+ID, FirstName, LastName, Education, Address, Certification,  
+1, Aria, Ebrahimi, Master, Iran-Tehran, NULL
+2,
+
+
+1 -> Web Scrapy => Web Crawling => Divar => Requests, bs4, Selenium >>> 
+	
+ api.digikala.com/v1/search/?q=5060
+
+=> 
