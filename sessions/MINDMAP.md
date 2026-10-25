@@ -4,13 +4,13 @@ Learned topics, taken from the course `.py` files (each class is two parts; topi
 
 Update this file at the end of every session: add a `## Session N` section, then add the same branches to the diagram below.
 
-Last built from code: **2026-10-10** (through Session 10, Part 1).
+Last built from notes: **2026-10-25** (through Session 11; Session 11 has class notes only, no `.py`).
 
 ## How the course fits together
 
 The spine is **CRISP-DM**: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.
 
-So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep: features versus target, a train/test split, and turning categories into numbers. A model is not trained yet.
+So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep: features versus target, a train/test split, and turning categories into numbers. A model is not trained yet. Session 11 opens **semi-structured data and collection**: MongoDB / NoSQL, and web scraping or APIs (Divar, Digikala), still without a lesson script.
 
 ```mermaid
 mindmap
@@ -45,6 +45,10 @@ mindmap
       Features and target
       Train test split
       Map and get dummies
+    Semi-structured data
+      MongoDB NoSQL
+      Web scrape Divar
+      Digikala search API
 ```
 
 ## Session 1 — Python stack
@@ -260,14 +264,38 @@ No lesson script. The split diagram is `sessions/session10/Random_Split.png`.
 
 Source: `sessions/session10/main.py` (class note: `sessions/session10/Note.txt`)
 
+## Session 11 — Semi-structured data and collection
+
+No lesson `.py` in the class folder. Part 1 and Part 2 are videos only (`Part1_1.mp4`, `Part1_2.mp4`, `Part2.mp4`). Topics below come from the class notes.
+
+### Class opening note — `sessions/session11/Note.txt`
+
+- Carry-over homework called out at the start of class: finish **speech to text with a microphone** (the Session 8 Streamlit mic path that was still a TODO).
+
+### Part 1 note — `sessions/session11/Part1_Note.txt`
+
+- **Divar as a source** — Iranian classifieds site named as the scrape / crawl target.
+- **MongoDB** — semi-structured storage; NoSQL as “Not Only SQL”; contrasted with relational tables.
+- **2D tables again** — row / column layout for structured data (example row sketch: ID, FirstName, LastName, Education, Address, Certification, with `NULL` for missing certification).
+- **Web scraping / crawling path** — `Requests`, Beautiful Soup (`bs4`), Selenium, aimed at Divar.
+- **HTTP API path** — Digikala search example: `api.digikala.com/v1/search/?q=5060`.
+
+### Part 2
+
+Video only. No lesson script or note file beyond the session root note.
+
+Source: `sessions/session11/Note.txt`, `sessions/session11/Part1_Note.txt`
+
 ## Named in notes, not in a lesson file yet
 
-From the Session 9 and Session 10 notes. These were named in class and are not practiced as code yet.
+From the Session 9–11 notes. These were named in class and are not practiced as code yet.
 
 - **Fit a model** — linear regression, logistic regression, SVM, KNN, naive Bayes
 - **Clustering** — K-Means
 - **Modeling stacks** — TensorFlow, PyTorch (`torchvision`, `torchtext`, `torchaudio`); NN, CNN, RNN, GNN
-- **Later stack** — LLM via Ollama (the installer was in the class folder, not used in code), agents, RAG, vector databases, Docker, deployment
+- **Collection / storage** — scrape Divar with Requests / bs4 / Selenium; call Digikala search API; store semi-structured data in MongoDB
+- **Speech homework** — microphone speech-to-text (Session 8 TODO called out again in Session 11)
+- **Later stack** — LLM via Ollama (the installer was in an earlier class folder, not used in code), agents, RAG, vector databases, Docker, deployment
 
 ## Where the code lives
 
@@ -283,6 +311,7 @@ From the Session 9 and Session 10 notes. These were named in class and are not p
 | 8 | Videos `Session8/.../streamlit_project/` and repo `sessions/session8/main.py` |
 | 9 | Repo `sessions/session9/main.py` |
 | 10 | Repo `sessions/session10/main.py` |
+| 11 | Repo `sessions/session11/` notes only (no `.py`) |
 
 Classmate `Exercise` folders were not included.
 
@@ -291,7 +320,7 @@ Classmate `Exercise` folders were not included.
 Copy this block to the bottom of the topic list, fill it from the new `#region`s, then add one branch to the Mermaid diagram.
 
 ```markdown
-## Session 11 — <short title>
+## Session 12 — <short title>
 
 ### Part 1 — `<file.py>`
 
