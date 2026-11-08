@@ -1,0 +1,33 @@
+
+requests, bs4 => Image
+selenium
+
+https://www.w3schools.com/html/html_basic.asp
+
+API: 
+
+HTML, CSS 
+
+Linear Regression: 
+
+Divar: 
+	206 
+
+Web Scrapy: 
+
+
+Mitra Pooyamehr 
+Jafari 
+
+
+
+
+
+
+
+
+
+
+
+
+
