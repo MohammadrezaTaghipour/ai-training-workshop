@@ -4,13 +4,13 @@ Learned topics, taken from the course `.py` files (each class is two parts; topi
 
 Update this file at the end of every session: add a `## Session N` section, then add the same branches to the diagram below.
 
-Last built from notes: **2026-10-25** (through Session 11; Session 11 has class notes only, no `.py`).
+Last built from code: **2026-11-08** (through Session 12, Part 1).
 
 ## How the course fits together
 
 The spine is **CRISP-DM**: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.
 
-So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep: features versus target, a train/test split, and turning categories into numbers. A model is not trained yet. Session 11 opens **semi-structured data and collection**: MongoDB / NoSQL, and web scraping or APIs (Divar, Digikala), still without a lesson script.
+So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep: features versus target, a train/test split, and turning categories into numbers. Session 11 names MongoDB / NoSQL and collection paths. Session 12 practices **web scraping** (`requests` / Beautiful Soup / Selenium) and continues **regression prep** (Advertising EDA + MinMax scale; house-price IQR cleanup and `LabelEncoder`). A regressor is still not fitted.
 
 ```mermaid
 mindmap
@@ -49,6 +49,14 @@ mindmap
       MongoDB NoSQL
       Web scrape Divar
       Digikala search API
+    Web scraping practice
+      requests BeautifulSoup
+      Selenium ChromeDriver
+      Product table to CSV
+    Regression prep
+      Advertising EDA
+      MinMaxScaler
+      IQR outliers LabelEncoder
 ```
 
 ## Session 1 — Python stack
@@ -286,16 +294,58 @@ Video only. No lesson script or note file beyond the session root note.
 
 Source: `sessions/session11/Note.txt`, `sessions/session11/Part1_Note.txt`
 
+## Session 12 — Web scraping and regression prep
+
+Part 1 is the Project folder with four lesson scripts. Part 2 is a short note (HTML / CSS / Selenium / Linear Regression named again) plus a local ChromeDriver zip that is not stored in the repo.
+
+### Part 1 — web scraping
+
+#### `sessions/session12/WebScrapy_Sample.py`
+
+- **`requests` + Beautiful Soup** — fetch the Liliome Dior brand pages, read pagination from `page-numbers`, walk each product card.
+- **Fields scraped** — Persian title, English title (split on `|`), old / new price (Toman, commas stripped), rating, image file name.
+- **Images** — download product thumbnails into a local `perfume/` folder (ignored by git).
+- **Pandas output** — build a DataFrame and write `lilium_df.csv` (a sample scrape is already in the session folder).
+
+#### `sessions/session12/WebScrapy_Sample2.py`
+
+- **Image dump sketch (commented)** — Varzesh3 homepage images with a User-Agent header.
+- **Selenium** — Chrome + local `chromedriver.exe`, open Google, type a Persian search query with `send_keys` / `Keys.ENTER`. Digikala search XPaths are commented as an alternate demo. ChromeDriver binary is not committed.
+
+### Part 1 — regression prep
+
+#### `sessions/session12/LinearRegression.py`
+
+- **CRISP-DM again** — supervised regression vs classification vs unsupervised clustering.
+- **Advertising dataset** — TV / radio / newspaper → `sales`; correlation heatmap, missing check, histogram, skew, boxplot, pairplot, scatter of spend vs sales (most plots commented).
+- **Split + scale** — `train_test_split` (`test_size=0.2`, `random_state=0`); `MinMaxScaler` fit on train and transform test. Notes that MinMax suits distance models (KNN, K-Means, SVM) and StandardScaler suits neural nets. Live code prints the scaled train matrix. The linear model itself is not fitted yet.
+
+#### `sessions/session12/HousePrediction_Regression.py`
+
+- **HouseNew.csv** — price / area / year of construction / address.
+- **IQR outliers** — drop rows whose `Area` is outside `Q1 - 1.5·IQR` … `Q3 + 1.5·IQR`.
+- **Age feature** — `1401 - YearOfConstruction`.
+- **Encode address** — `LabelEncoder` → `Address_code` (map / get_dummies named as alternatives).
+- **Split** — `X` drops Address and Price; `train_test_split` with `random_state=42`. MinMaxScaler is constructed but not applied yet; no model fit.
+
+Datasets: `datasets/Advertising.csv`, `datasets/HouseNew.csv`. Sample scrape: `lilium_df.csv`.
+
+### Part 2 — `sessions/session12/Note.txt`
+
+- HTML / CSS basics (W3Schools link), `requests` / `bs4` for images, Selenium, API, Linear Regression, Divar (206), web scrapy named again.
+
+Source: `sessions/session12/` (class Project under Videos `Session12/Session_12/Part 1/Project/Project`)
+
 ## Named in notes, not in a lesson file yet
 
-From the Session 9–11 notes. These were named in class and are not practiced as code yet.
+From the Session 9–12 notes. These were named in class and are not practiced as code yet.
 
-- **Fit a model** — linear regression, logistic regression, SVM, KNN, naive Bayes
+- **Fit a model** — linear regression (prep only so far), logistic regression, SVM, KNN, naive Bayes
 - **Clustering** — K-Means
 - **Modeling stacks** — TensorFlow, PyTorch (`torchvision`, `torchtext`, `torchaudio`); NN, CNN, RNN, GNN
-- **Collection / storage** — scrape Divar with Requests / bs4 / Selenium; call Digikala search API; store semi-structured data in MongoDB
+- **Collection / storage** — scrape Divar; Digikala API; MongoDB (named in Session 11, not coded)
 - **Speech homework** — microphone speech-to-text (Session 8 TODO called out again in Session 11)
-- **Later stack** — LLM via Ollama (the installer was in an earlier class folder, not used in code), agents, RAG, vector databases, Docker, deployment
+- **Later stack** — LLM via Ollama, agents, RAG, vector databases, Docker, deployment
 
 ## Where the code lives
 
@@ -312,6 +362,7 @@ From the Session 9–11 notes. These were named in class and are not practiced a
 | 9 | Repo `sessions/session9/main.py` |
 | 10 | Repo `sessions/session10/main.py` |
 | 11 | Repo `sessions/session11/` notes only (no `.py`) |
+| 12 | Repo `sessions/session12/` |
 
 Classmate `Exercise` folders were not included.
 
@@ -320,7 +371,7 @@ Classmate `Exercise` folders were not included.
 Copy this block to the bottom of the topic list, fill it from the new `#region`s, then add one branch to the Mermaid diagram.
 
 ```markdown
-## Session 12 — <short title>
+## Session 13 — <short title>
 
 ### Part 1 — `<file.py>`
 
