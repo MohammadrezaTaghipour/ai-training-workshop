@@ -4,13 +4,13 @@ Learned topics, taken from the course `.py` files (each class is two parts; topi
 
 Update this file at the end of every session: add a `## Session N` section, then add the same branches to the diagram below.
 
-Last built from code: **2026-11-08** (through Session 12, Part 1).
+Last built from code: **2026-11-08** (through Session 13).
 
 ## How the course fits together
 
 The spine is **CRISP-DM**: Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation → Deployment.
 
-So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep: features versus target, a train/test split, and turning categories into numbers. Session 11 names MongoDB / NoSQL and collection paths. Session 12 practices **web scraping** (`requests` / Beautiful Soup / Selenium) and continues **regression prep** (Advertising EDA + MinMax scale; house-price IQR cleanup and `LabelEncoder`). A regressor is still not fitted.
+So far the class has stayed on **data understanding and preparation**, first for unstructured media (image, video, text, voice), then for structured tables. Session 10 starts modeling prep. Session 11 names MongoDB / NoSQL and collection paths. Session 12 practices **web scraping** and regression prep. Session 13 **fits linear regression** on Advertising (evaluate with MAE / MSE / RMSE, save with `joblib`, interactive predict) and starts an **image classification** path: captcha digit folders → resize / normalize → `LabelBinarizer`.
 
 ```mermaid
 mindmap
@@ -57,6 +57,14 @@ mindmap
       Advertising EDA
       MinMaxScaler
       IQR outliers LabelEncoder
+    Linear regression
+      Fit predict evaluate
+      joblib dump and load
+      Interactive sales predict
+    Image labels
+      Captcha digit folders
+      Resize normalize
+      LabelBinarizer
 ```
 
 ## Session 1 — Python stack
@@ -336,15 +344,43 @@ Datasets: `datasets/Advertising.csv`, `datasets/HouseNew.csv`. Sample scrape: `l
 
 Source: `sessions/session12/` (class Project under Videos `Session12/Session_12/Part 1/Project/Project`)
 
+## Session 13 — Fit linear regression and prepare captcha images
+
+The Project folder reuses Session 12 scraping scripts; those stay under `sessions/session12/`. New work is the Advertising model lifecycle and the captcha image pipeline.
+
+### `sessions/session13/LinearRegression.py`
+
+- **Commented training path** — Advertising CRISP regions from Session 12, then `LinearRegression().fit`, `predict` on the test set.
+- **Evaluation** — `mean_absolute_error`, `mean_squared_error`, RMSE (`sqrt`); residual plot named. Class numbers noted roughly MAE 1.36, MSE 4.4, RMSE 2.1 vs mean sales ~13–14.
+- **Final model** — refit on all `X`, print `coef_` as a DataFrame; singleton predictions on hand-picked TV / radio / newspaper rows.
+- **Deployment** — `joblib.dump` → `LinearRegression.joblib` (file is in the session folder).
+- **Live script** — `joblib.load` the saved model, `input` for TV / radio / newspaper, print a singleton sales prediction.
+
+Diagrams in `sessions/session13/RegressionModel/` illustrate residual / performance ideas from class.
+
+### `sessions/session13/kaptcha_sample.py`
+
+- **Unstructured X** — images; **y** — parent folder names (digits `1`…`9` under `kaptcha/`).
+- **Load** — `glob` each digit folder, `cv2.imread`, resize to 32×32, `cv2.normalize` to 0–1 (`NORM_MINMAX`).
+- **Labels** — `LabelBinarizer` one-hot (OCR / LLM named as related ideas). No classifier trained yet.
+
+Dataset: `datasets/Advertising.csv`. Captcha set: `kaptcha/1` … `kaptcha/9` (~2k small PNGs). Saved model: `LinearRegression.joblib`.
+
+### Class note — `sessions/session13/Note.txt`
+
+- Linear regression / ML for structured data vs PyTorch / TensorFlow for unstructured; NN vs classical LR (`m`, `b`).
+
+Source: `sessions/session13/` (Videos `Session13/Session13/Project`)
+
 ## Named in notes, not in a lesson file yet
 
-From the Session 9–12 notes. These were named in class and are not practiced as code yet.
+From the Session 9–13 notes. These were named in class and are not practiced as code yet.
 
-- **Fit a model** — linear regression (prep only so far), logistic regression, SVM, KNN, naive Bayes
-- **Clustering** — K-Means
+- **More models** — logistic regression, SVM, KNN, naive Bayes; clustering (K-Means)
 - **Modeling stacks** — TensorFlow, PyTorch (`torchvision`, `torchtext`, `torchaudio`); NN, CNN, RNN, GNN
 - **Collection / storage** — scrape Divar; Digikala API; MongoDB (named in Session 11, not coded)
 - **Speech homework** — microphone speech-to-text (Session 8 TODO called out again in Session 11)
+- **OCR / captcha classifier** — next step after Session 13 `LabelBinarizer`
 - **Later stack** — LLM via Ollama, agents, RAG, vector databases, Docker, deployment
 
 ## Where the code lives
@@ -363,6 +399,7 @@ From the Session 9–12 notes. These were named in class and are not practiced a
 | 10 | Repo `sessions/session10/main.py` |
 | 11 | Repo `sessions/session11/` notes only (no `.py`) |
 | 12 | Repo `sessions/session12/` |
+| 13 | Repo `sessions/session13/` |
 
 Classmate `Exercise` folders were not included.
 
@@ -371,7 +408,7 @@ Classmate `Exercise` folders were not included.
 Copy this block to the bottom of the topic list, fill it from the new `#region`s, then add one branch to the Mermaid diagram.
 
 ```markdown
-## Session 13 — <short title>
+## Session 14 — <short title>
 
 ### Part 1 — `<file.py>`
 

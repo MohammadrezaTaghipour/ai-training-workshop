@@ -1,0 +1,7 @@
+Linear Regression: 
+Machine Learning: 
+
+Unstructured => Pytorch, TensorFlow =
+Structured => Supervised, Unsupervised 
+NN: 
+ML: LR: M, B 
