@@ -17,7 +17,7 @@ projects/
   detection-studio/       Desktop YOLO UI → shells out to vision runtime
 runtimes/
   vision/                 Isolated Ultralytics env (OpenCV 5 / Torch)
-lab/adapters/             Optional web adapters (empty until you ask for web)
+lab/adapters/             Streamlit web adapters (data prep, car price)
 ```
 
 ## Setup (main Lab — OpenCV 4)
@@ -45,6 +45,14 @@ Session 9 table tools in the browser: upload a CSV, TSV, or TXT file, inspect co
 
 ```bash
 uv run streamlit run lab/adapters/data_prep_app.py
+```
+
+## Car price studio (Streamlit)
+
+Sessions 11–13 lifecycle: crawl Divar car listings → local CSV → clean → Linear Regression → joblib → predict price.
+
+```bash
+uv run streamlit run lab/adapters/car_price_app.py
 ```
 
 ## Vision runtime (YOLO — separate env)
@@ -79,3 +87,4 @@ Weights are under `sessions/session6/models/` and `runtimes/vision/models/`.
 | [Image Studio](projects/image-studio) | Tkinter · OpenCV · `core` | Filters, transforms, Haar face/eye detection |
 | [Detection Studio](projects/detection-studio) | Tkinter · vision CLI | YOLO image **and video** detection via isolated runtime |
 | [Data prep](lab/adapters/data_prep_app.py) | Streamlit · Pandas · `core.tabular` | Upload a table, clean missing values, combine files, download CSV |
+| [Car Price Studio](projects/car-price-studio) | Streamlit · requests · sklearn · `core.cars` | Divar crawl → CSV → linear regression → price predict |
