@@ -45,3 +45,7 @@ runtimes/**/.venv/
 
 # Keep sample images folder, ignore large personal dumps
 !projects/image-studio/images/.gitkeep
+
+# Car Price Studio local crawl / trained model
+projects/car-price-studio/data/*.csv
+projects/car-price-studio/models/*.joblib
